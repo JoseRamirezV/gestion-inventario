@@ -18,7 +18,7 @@
 
          <!-- Formulario para la recolección de datos -->
          <form id="productForm" class="mb-5">
-            <input type="text" id="productId" placeholder="Ej. 001" name="id" />
+            <input type="text" id="productId" name="id" />
             <div class="form-row">
                <div class="form-group col-md-6">
                   <label for="productName">Nombre del Producto</label>
@@ -26,8 +26,31 @@
                      type="text"
                      class="form-control"
                      id="productName"
-                     placeholder="Ej. Camiseta Básica"
+                     placeholder="Camiseta Básica"
                      name="product"
+                     autocomplete="off"
+                     required
+                  />
+               </div>
+               <div class="form-group col-md-6">
+                  <label for="productPrice">Cantidad</label>
+                  <input
+                     type="number"
+                     class="form-control"
+                     id="productPrice"
+                     placeholder="2"
+                     name="stock"
+                     required
+                  />
+               </div>
+               <div class="form-group col-md-6">
+                  <label for="productCategory">Categoría</label>
+                  <input
+                     type="text"
+                     class="form-control"
+                     id="productCategory"
+                     placeholder="Ropa Casual"
+                     name="category"
                      required
                   />
                </div>
@@ -37,7 +60,7 @@
                      type="number"
                      class="form-control"
                      id="productPrice"
-                     placeholder="Ej. 15.00"
+                     placeholder="15.00"
                      name="price"
                      required
                   />
@@ -45,25 +68,25 @@
             </div>
             <div class="form-row">
                <div class="form-group col-md-6">
-                  <label for="productCategory">Categoría</label>
-                  <input
-                     type="text"
-                     class="form-control"
-                     id="productCategory"
-                     placeholder="Ej. Ropa Casual"
-                     name="category"
-                     required
-                  />
-               </div>
-               <div class="form-group col-md-6">
                   <label for="productGender">Género</label>
                   <input
                      type="text"
                      class="form-control"
                      id="productGender"
-                     placeholder="Ej. Unisex"
+                     placeholder="Unisex"
                      name="gender"
                      required
+                  />
+               </div>
+               <div class="form-group col-md-6">
+                  <label for="productImage">URL de la Imagen</label>
+                  <input
+                     type="text"
+                     class="form-control"
+                     id="productImage"
+                     placeholder="https://example.com/imagen.jpg"
+                     name="image"
+                     autocomplete="off"
                   />
                </div>
             </div>
@@ -77,21 +100,19 @@
                   required
                ></textarea>
             </div>
-            <div class="form-group">
-               <label for="productImage">URL de la Imagen</label>
-               <input
-                  type="text"
-                  class="form-control"
-                  id="productImage"
-                  placeholder="Ej. https://example.com/imagen.jpg"
-                  name="image"
-                  required
-               />
+            <div class="d-flex justify-content-between">
+               <button
+                  type="button"
+                  class="btn btn-danger"
+                  onclick="deleteOutOfStockProducts()"
+               >
+                  Eliminar sin stock
+               </button>
+               <button class="btn btn-primary">Guardar</button>
             </div>
-            <button class="btn btn-primary">Agregar Producto</button>
          </form>
 
-         <div class="row" id="productContainer">
+         <div class="card-container" id="productContainer">
             <!-- Aquí se agregarán las tarjetas de productos -->
          </div>
       </div>
@@ -103,23 +124,13 @@
       ></script>
       <script src="/js/addProduct.js"></script>
       <script src="/js/updateProduct.js"></script>
+      <script src="/js/deleteProduct.js"></script>
       <script src="/js/createProductCard.js"></script>
 
       <script>
-         const savedInventory = JSON.parse(
-            window.localStorage.getItem('inventory')
-         );
-         const inventory = savedInventory ?? {
-            123: {
-               id: '123',
-               product: 'Something',
-               category: 'cap',
-               gender: 'women',
-               description: "it's new",
-               price: 14,
-               image: 'url',
-            },
-         };
+         const savedInventory = loadFromLocalStorage();
+
+         const inventory = savedInventory ?? {};
 
          const form = document.querySelector('form');
          const productId = document.querySelector('#productId');
@@ -149,6 +160,18 @@
 
          function loadFromLocalStorage() {
             return JSON.parse(window.localStorage.getItem('inventory'));
+         }
+
+         function deleteProductById(id) {
+            const idToDelete = id.split('_')[1];
+
+            const card = document.getElementById(idToDelete);
+            card.style.transform = 'scale(0)';
+
+            setTimeout(() => {
+               deleteProduct(idToDelete);
+               saveToLocalStorage();
+            }, 200);
          }
       </script>
    </body>

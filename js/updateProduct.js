@@ -1,6 +1,5 @@
 function loadProductData(id) {
    const idToUpdate = id.split('_')[1];
-   console.log(inventory[idToUpdate]);
 
    Object.entries(inventory[idToUpdate]).forEach(([key, value]) => {
       form.elements[key].value = value;
@@ -9,6 +8,8 @@ function loadProductData(id) {
 
 function updateProduct(id, newData) {
    inventory[id] = {...newData}
+
+   Object.keys(inventory)
 
    createProductCard(newData, true)
 

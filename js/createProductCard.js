@@ -4,25 +4,25 @@ function createProductCard(data, update = false) {
 
    if (!update) {
       productCard = document.createElement('div');
-      productCard.className = 'card shadow product-card col-md-4';
+      productCard.className = 'card shadow product-card pop-up';
       productCard.id = data.id;
    } else {
       productCard = document.getElementById(data.id);
    }
 
    productCard.innerHTML = `
-      <img src="${data.image}" class="card-img-top" alt="${data.product}">
+         <img src="${data.image}" class="card-img-top" alt="${data.product}">
       <div class="card-body">
-         <span>
-            <p class="card-text">Categoría: ${data.category}</p>
-            <p class="card-text">Género: ${data.gender}</p>
+         <div class="card-content">
+         <b class="card-text">${data.category} - ${data.gender}</b>
             <p class="card-text">Descripción: ${data.description}</p>
-            <b class="price">$${parseFloat(data.price).toFixed(2)}</b>
-         </span>
+            <span class="d-flex align-items-center">
+               <p class="card-text">Stock: ${data.stock}</p>
+               <b class="price">$20</b>
+            </span>
+         </div>
          <div class="actions">
-            <button id="edit_${
-               data.id
-            }" class="edit-btn shadow btn-light" onclick="loadProductData(this.id)">
+            <button id="edit_${data.id}" class="edit-btn shadow btn-light" onclick="loadProductData(this.id)">
                <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -37,7 +37,7 @@ function createProductCard(data, update = false) {
                   />
                </svg>
             </button>
-            <button id="delete_${data.id}" class="delete-btn shadow btn-danger">
+            <button id="delete_${data.id}" class="delete-btn shadow btn-danger" onclick="deleteProductById(this.id)">
                <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"

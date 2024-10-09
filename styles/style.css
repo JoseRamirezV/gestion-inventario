@@ -15,25 +15,73 @@ body {
    width: 40rem;
    margin-inline: auto;
 
-   #productId{
-      position: absolute; 
+   #productId {
+      position: absolute;
       display: none;
    }
 }
 
-#productContainer{
+#productContainer {
    margin-bottom: 5rem;
 }
 
-.product-card {
-   border: none;
-   border-radius: 15px;
-   transition: transform 0.2s;
-   margin-bottom: 30px;
+.card-container {
+   display: flex;
+   flex-wrap: wrap;
+   gap: 1rem;
 }
 
-.product-card:hover {
-   transform: scale(1.05);
+.product-card {
+   position: relative;
+   border: none;
+   flex: 0 0 20rem;
+   border-radius: 15px;
+   transition: transform 0.2s;
+   animation: disappear .2s;
+
+   &:hover .actions {
+      button {
+         transform: scale(1);
+      }
+   }
+
+   .actions {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      display: flex;
+      justify-content: flex-end;
+      gap: 1rem;
+
+      button {
+         display: grid;
+         place-content: center;
+         padding: 0.5rem;
+         border-radius: 5rem;
+         transition: all 0.3s ease;
+         transform: scale(0);
+
+         &:hover {
+            transform: scale(1.1);
+         }
+
+         svg {
+            width: 1.2rem;
+         }
+      }
+   }
+}
+
+@keyframes pop-up {
+   0% {
+      transform: scale(0);
+   }
+   50% {
+      transform: scale(1.1);
+   }
+   100% {
+      transform: scale(1);
+   }
 }
 
 .card-header {
@@ -47,13 +95,18 @@ body {
    border-radius: 15px;
    display: flex;
    flex-direction: column;
-   
 
-   span {
+   .card-content {
       display: flex;
       flex-direction: column;
-      gap: .5rem;
-      margin-bottom: 1rem;
+      justify-content: space-between;
+      gap: 0.5rem;
+
+      span {
+         display: flex;
+         justify-content: space-between;
+         font-weight: bold;
+      }
    }
 }
 
@@ -61,41 +114,7 @@ body {
    margin-bottom: 0;
 }
 
-.price {
-   margin-top: .5rem;
-   font-size: large;
-   font-weight: bold;
-}
-
 .card-img-top {
    border-top-left-radius: 15px;
    border-top-right-radius: 15px;
-}
-
-.actions{
-   /* background-color: red; */
-   margin-top: auto;
-   display: flex;
-   justify-content: flex-end;
-   gap: 1rem;
-
-   button {
-      display: grid;
-      place-content: center;
-      padding: .5rem;
-      aspect-ratio: 1;
-      border-radius: 5rem;
-      transition: all .3s ease;
-
-      &:hover{
-         transform: scale(1.1);
-      }
-
-      svg{
-         width: 1.5rem;
-      }
-
-   }
-
-   
 }
